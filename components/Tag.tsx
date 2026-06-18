@@ -22,6 +22,7 @@ export default function Tag({
     font?: string,
     textTransform?: "capitalize" | "uppercase" | "lowercase"
  }) {
+    console.log("text transfrom", textTransform, text)
     return (
         <div className={`tag ${variantClassMap[colorVariant]} flex flex-row items-center justify-center gap-1`}>
             {showPresenceDot && (

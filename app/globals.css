@@ -23,7 +23,7 @@
 
   /* Card */
   --color-card-bg: #f8f7f4;
-  --color-card-border: #e0ddd6;
+  --color-card-border: #E0DDD6;
 
   /* Accent */
   --color-accent: #e0512e;
@@ -74,6 +74,9 @@
   /* shared vertical padding: about, stack, projects */
   --spacing-section-y: 48px;
 
+  /* Border width */
+  --border-hairline: 0.5px;
+
   /* Border radius */
   --radius-card: 10px;
   --radius-tag: 20px;
@@ -102,7 +105,7 @@
   --text-body--font-weight: 400;
 
   --text-label: 10px;
-  --text-label--letter-spacing: 2.5px;
+  --text-label--letter-spacing: 1.5px;
   --text-label--font-weight: 500;
 
   --text-tag: 11px;
@@ -113,6 +116,10 @@
   body {
     @apply bg-bg-light text-dark font-sans;
   }
+}
+
+@utility border-hairline {
+  border-width: var(--border-hairline);
 }
 
 @layer components {
@@ -131,7 +138,7 @@
   .tag {
     @apply w-fit rounded-tag text-tag;
     padding: 3px 9px;
-    border: 0.5px solid;
+    border: var(--border-hairline) solid;
     text-transform: uppercase;
   }
 
@@ -155,5 +162,10 @@
   .action-button {
     @apply rounded-button;
     padding: 10px 20px
+  }
+  .project-card {
+    @apply border-card-border rounded-card bg-card-bg;
+    border: var(--border-hairline) solid;
+
   }
 }

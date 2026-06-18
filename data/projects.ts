@@ -11,7 +11,7 @@ export const projectsList = [
     name: "bogus_name",
     nature: "Mobile App",
     description: "Lorem Ipsum",
-    stack: ["Expo", "Next-JS", "Supabase", "Tailwindcss"],
+    stack: ["Expo", "Next-JS", "Supabase", "TailwindCss"],
     url: "",
     flag: "pet"
   },
@@ -19,7 +19,7 @@ export const projectsList = [
     name: "lorem_ipsum",
     nature: "Mobile App",
     description: "Lorem Ipsum",
-    stack: ["Expo", "Next-JS", "Supabase", "Tailwindcss"],
+    stack: ["Expo", "Next-JS", "Supabase", "TailwindCss"],
     url: "",
     flag: "pet"
   },
@@ -27,7 +27,7 @@ export const projectsList = [
     name: "qui_tollis_peccata_mundi",
     nature: "Mobile App",
     description: "Lorem Ipsum",
-    stack: ["Expo", "Next-JS", "Supabase", "Tailwindcss"],
+    stack: ["Expo", "Next-JS", "Supabase", "TailwindCss"],
     url: "",
     flag: 'pet'
   }

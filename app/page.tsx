@@ -6,10 +6,10 @@ import StackSection from "@/features/landing/StackSection";
 export default function Home() {
   return (
     <>
-  <HeroSection />
-  <AboutSection />
-  <StackSection />
-  <ProjectsSection />
-  </>
+      <HeroSection />
+      <AboutSection />
+      <StackSection />
+      <ProjectsSection />
+    </>
   );
 }

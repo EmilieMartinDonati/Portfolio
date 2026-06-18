@@ -11,7 +11,7 @@ const NAV_LINKS = [
 export default function Header() {
   return (
     <header className="bg-bg-dark">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-8 py-6">
+      <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-6 py-6 md:flex-row md:items-center md:justify-between md:gap-0">
         <a
           href="#"
           className="font-heading text-lg font-bold tracking-tight text-accent"
