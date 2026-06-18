@@ -30,7 +30,7 @@ export default function Footer() {
               href="mailto:hello@yourname.dev"
               className="text-body text-accent transition-colors hover:opacity-80"
             >
-              hello@yourname.dev
+              emilie.martindonati@gmail.com
             </a>
           </nav>
         </div>

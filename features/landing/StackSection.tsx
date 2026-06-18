@@ -6,7 +6,7 @@ export default function StackSection() {
         <section className="landing-section bg-bg-dark flex flex-col gap-6.5">
             <div className="flex flex-col gap-1.5">
                 <span className="section-title">02. Stack</span>
-                <h2 className="text-h2 text-heading text-white">Tools I reach for first.</h2>
+                <h2 className="text-h2 text-heading font-heading text-white">Mes outils de prédilection.</h2>
             </div>
             <div className="grid grid-cols-4 gap-4.5">
                 {skills.map(

@@ -3,7 +3,7 @@ export default function AboutSection() {
         <section className="landing-section grid grid-cols-3 gap-6 ">
             <div className="col-span-1 flex flex-col gap-2.5">
                 <span className="section-title text-timid-grey">1.About</span>{/** AUDIT bg timid grey overriding on white background section*/}
-                <h2 className="text-h2 text-heading">Not just a
+                <h2 className="text-h2 text-heading font-heading">Not just a
                     frontend dev.</h2>
             </div>
             <div className="col-span-2 flex flex-col gap-5">
