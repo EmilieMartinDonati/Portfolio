@@ -1,14 +1,15 @@
+import Section from "@/components/Section"
 import { skills, SkillType } from "@/data/skills"
 import Tag from "@/components/Tag"
 
 export default function StackSection() {
     return (
-        <section className="landing-section bg-bg-dark flex flex-col gap-6.5">
+        <Section tone="dark" id="stack" className="flex flex-col gap-6.5">
             <div className="flex flex-col gap-1.5">
                 <span className="section-title">02. Stack</span>
-                <h2 className="text-h2 text-heading font-heading text-white">Mes outils de prédilection.</h2>
+                <h2 className="text-h2 text-heading font-heading text-white">My favorite tools.</h2>
             </div>
-            <div className="grid grid-cols-4 gap-4.5">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4.5">
                 {skills.map(
                     ({ label, identifier, list, colorVariant }: SkillType) => (
                         <div
@@ -27,6 +28,6 @@ export default function StackSection() {
                     )
                 )}
             </div>
-        </section>
+        </Section>
     )
 }

@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study mockup — project detail page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* Tokens — same names and values as @theme in app/globals.css */
+  :root {
+    --color-bg-dark: #0c0c0c;
+    --color-bg-light: #f9f8f5;
+    --color-card-bg: #f8f7f4;
+    --color-card-border: #e0ddd6;
+    --color-accent: #e0512e;
+    --color-dark: #0c0c0c;
+    --color-muted-dark: #666666;
+    --color-muted-white: rgba(255, 255, 255, 0.42);
+    --color-standard-grey: #5a5a5a;
+    --color-timid-grey: #aaaaaa;
+    --color-separator-light: #eceae6;
+    --color-separator-dark: #1a1a1a;
+
+    --color-tag-purple-bg: #eeedfe;  --color-tag-purple-text: #534ab7;  --color-tag-purple-border: #afa9ec;
+    --color-tag-teal-bg: #e1f5ee;    --color-tag-teal-text: #0f6e56;    --color-tag-teal-border: #5dcaa5;
+    --color-tag-neutral-bg: #f1efe8; --color-tag-neutral-text: #5f5e5a; --color-tag-neutral-border: #b4b2a9;
+    --color-tag-coral-bg: #e0512e1f; --color-tag-coral-text: #e0512e;   --color-tag-coral-border: #e0512e40;
+    --color-tag-dark-bg: #181818;    --color-tag-dark-text: #cccccc;    --color-tag-dark-border: #282828;
+
+    --spacing-section-x: 28px;
+    --spacing-section-y: 48px;
+    --border-hairline: 0.5px;
+    --radius-card: 10px;
+    --radius-tag: 20px;
+    --radius-button: 5px;
+    --radius-badge: 4px;
+
+    --font-sans: "Inter", system-ui, sans-serif;
+    --font-heading: "Syne", system-ui, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+    /* Only used by the code / terminal figures */
+    --color-code-green: rgba(80, 200, 130, 0.75);
+    --color-code-green-dim: rgba(80, 200, 130, 0.4);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--color-bg-light);
+    color: var(--color-dark);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  h1, h2, h3, h4, p, dl, dd, figure, ul { margin: 0; padding: 0; }
+  ul { list-style: none; }
+  button { font-family: inherit; cursor: pointer; }
+  :focus-visible { outline: 1.5px solid var(--color-accent); outline-offset: 3px; }
+
+  /* ---------- Layout ---------- */
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 var(--spacing-section-x); }
+  .section { padding: var(--spacing-section-y) 0; }
+  .section--dark  { background: var(--color-bg-dark);  color: #fff; border-top: var(--border-hairline) solid var(--color-separator-dark); }
+  .section--light { background: var(--color-bg-light); border-top: var(--border-hairline) solid var(--color-separator-light); }
+
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: 10px; letter-spacing: 2.5px; font-weight: 600; text-transform: uppercase;
+    color: var(--color-timid-grey);
+    margin-bottom: 8px;
+  }
+  .section--dark .section-title { color: var(--color-standard-grey); }
+  .h2 { font-family: var(--font-heading); font-size: 26px; line-height: 1.2; letter-spacing: -0.5px; font-weight: 500; }
+  .body { color: var(--color-standard-grey); }
+  .section--dark .body { color: var(--color-muted-white); }
+  .accent { color: var(--color-accent); }
+
+  .split { display: grid; grid-template-columns: 1fr 2fr; gap: 36px; align-items: start; }
+
+  /* ---------- Tags & buttons ---------- */
+  .tag {
+    display: inline-block; width: fit-content;
+    font-size: 11px; line-height: 1.5; text-transform: uppercase;
+    padding: 3px 9px; border-radius: var(--radius-tag);
+    border: var(--border-hairline) solid;
+  }
+  .tag--coral   { background: var(--color-tag-coral-bg);   color: var(--color-tag-coral-text);   border-color: var(--color-tag-coral-border); }
+  .tag--dark    { background: var(--color-tag-dark-bg);    color: var(--color-tag-dark-text);    border-color: var(--color-tag-dark-border); }
+  .tag--teal    { background: var(--color-tag-teal-bg);    color: var(--color-tag-teal-text);    border-color: var(--color-tag-teal-border); }
+  .tag--purple  { background: var(--color-tag-purple-bg);  color: var(--color-tag-purple-text);  border-color: var(--color-tag-purple-border); }
+  .tag--neutral { background: var(--color-tag-neutral-bg); color: var(--color-tag-neutral-text); border-color: var(--color-tag-neutral-border); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .btn {
+    display: inline-block; font-size: 12px; line-height: 1.4;
+    padding: 10px 20px; border-radius: var(--radius-button);
+    border: var(--border-hairline) solid transparent;
+    transition: background .2s, color .2s, border-color .2s;
+  }
+  .btn--primary { background: var(--color-accent); color: #fff; }
+  .btn--primary:hover { background: #c84524; }
+  .btn--ghost { color: rgba(255,255,255,.55); border-color: rgba(255,255,255,.12); }
+  .btn--ghost:hover { color: #fff; border-color: rgba(255,255,255,.3); }
+
+  /* ---------- Header ---------- */
+  .header { background: var(--color-bg-dark); }
+  .header .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 20px; padding-bottom: 20px; }
+  .logo { font-family: var(--font-heading); font-size: 17px; font-weight: 700; letter-spacing: -0.3px; color: var(--color-accent); }
+  .nav { display: flex; align-items: center; gap: 24px; }
+  .nav a { color: var(--color-muted-white); transition: color .2s; }
+  .nav a:hover { color: #fff; }
+  .nav .hire {
+    color: var(--color-accent); font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    border: var(--border-hairline) solid var(--color-accent); border-radius: var(--radius-button); padding: 7px 14px;
+    transition: background .2s, color .2s;
+  }
+  .nav .hire:hover { background: var(--color-accent); color: #fff; }
+
+  /* ---------- Hero ---------- */
+  .hero { background: var(--color-bg-dark); color: #fff; padding: 28px 0 var(--spacing-section-y); }
+  .back { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; color: var(--color-muted-white); transition: color .2s; }
+  .back:hover { color: var(--color-accent); }
+  .hero .tags { margin: 28px 0 20px; }
+  .hero h1 { font-family: var(--font-heading); font-size: 45px; line-height: 1.05; letter-spacing: -2px; font-weight: 500; }
+  .lede { font-size: 14px; font-weight: 500; line-height: 1.7; color: var(--color-muted-white); max-width: 520px; margin: 20px 0 26px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+
+  /* ---------- Gallery ---------- */
+  .stage {
+    position: relative; height: 440px; overflow: hidden;
+    background: radial-gradient(ellipse at 50% 120%, rgba(224,81,46,.1), transparent 60%), var(--color-tag-neutral-bg);
+    border: var(--border-hairline) solid var(--color-card-border);
+    border-radius: var(--radius-card);
+  }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center; gap: 28px;
+    opacity: 0; transform: translateY(10px); pointer-events: none;
+    transition: opacity .45s ease, transform .45s ease;
+  }
+  .slide.is-active { opacity: 1; transform: none; pointer-events: auto; }
+  .stage-hint {
+    position: absolute; left: 14px; bottom: 12px;
+    font-family: var(--font-mono); font-size: 10px; color: var(--color-timid-grey);
+  }
+  .stage-count {
+    position: absolute; right: 14px; bottom: 12px;
+    font-size: 10px; letter-spacing: 1.5px; color: var(--color-timid-grey);
+  }
+
+  /* Phone placeholder — swap the .screen content for a real <img> */
+  .phone {
+    width: 178px; height: 364px; flex: none; padding: 9px;
+    background: #161616; border: var(--border-hairline) solid rgba(255,255,255,.16); border-radius: 28px;
+    box-shadow: 0 24px 48px rgba(12,12,12,.18);
+  }
+  .phone--side { transform: scale(.86); opacity: .55; }
+  .screen {
+    height: 100%; border-radius: 20px; overflow: hidden;
+    background: var(--color-bg-dark); border: var(--border-hairline) solid rgba(255,255,255,.06);
+    padding: 16px 12px; display: flex; flex-direction: column; gap: 9px;
+  }
+  .screen--light { background: var(--color-bg-light); border-color: transparent; }
+  .sk { border-radius: 4px; background: rgba(255,255,255,.08); height: 8px; }
+  .screen--light .sk { background: rgba(12,12,12,.08); }
+  .sk--title { height: 14px; width: 62%; }
+  .sk--short { width: 40%; }
+  .sk--mid   { width: 78%; }
+  .sk--card  { height: 62px; border-radius: 8px; }
+  .sk--tall  { height: 116px; border-radius: 8px; }
+  .sk--accent, .screen--light .sk--accent { background: rgba(224,81,46,.55); }
+  .sk--btn, .screen--light .sk--btn { height: 26px; border-radius: 6px; background: var(--color-accent); margin-top: auto; }
+  .sk-row { display: flex; gap: 8px; }
+  .sk-row .sk { flex: 1; }
+  .sk-bars { display: flex; align-items: flex-end; gap: 6px; height: 96px; }
+  .sk-bars span { flex: 1; border-radius: 3px; background: rgba(224,81,46,.3); border: var(--border-hairline) solid rgba(224,81,46,.4); }
+
+  .slide-note { max-width: 250px; }
+  .slide-note h3 { font-family: var(--font-heading); font-size: 18px; font-weight: 500; line-height: 1.3; margin-bottom: 8px; }
+  .slide-note p { color: var(--color-muted-dark); }
+
+  .thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+  .thumb {
+    text-align: left; color: var(--color-muted-dark);
+    background: var(--color-card-bg); border: var(--border-hairline) solid var(--color-card-border); border-radius: var(--radius-card);
+    padding: 12px 14px; transition: border-color .2s, color .2s;
+  }
+  .thumb:hover { color: var(--color-dark); border-color: var(--color-tag-neutral-border); }
+  .thumb[aria-pressed="true"] { color: var(--color-dark); border-color: var(--color-accent); }
+  .thumb b { display: block; font-size: 10px; letter-spacing: 1.5px; font-weight: 500; color: var(--color-timid-grey); }
+  .thumb[aria-pressed="true"] b { color: var(--color-accent); }
+  .thumb span { font-size: 12px; }
+
+  /* ---------- Context ---------- */
+  .body + .body { margin-top: 14px; }
+  .stats { display: flex; flex-wrap: wrap; gap: 36px; margin-top: 26px; }
+  .stat-value { font-family: var(--font-heading); font-size: 26px; font-weight: 500; line-height: 1.2; }
+  .stat-label { font-size: 11px; color: var(--color-timid-grey); margin-top: 2px; }
+
+  /* ---------- Stack & architecture ---------- */
+  .stack-head { margin-bottom: 28px; }
+  .stack-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .stack-col h3 { font-size: 10px; letter-spacing: 1.8px; font-weight: 500; text-transform: uppercase; color: #777; margin-bottom: 12px; }
+  .stack-col:first-child h3 { color: var(--color-accent); }
+  .stack-col p { color: var(--color-muted-white); font-size: 12px; margin-top: 12px; }
+
+  .arch {
+    display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: 12px;
+    margin-top: 36px; padding-top: 28px; border-top: var(--border-hairline) solid var(--color-separator-dark);
+  }
+  .arch-node { background: #101010; border: var(--border-hairline) solid var(--color-tag-dark-border); border-radius: var(--radius-card); padding: 14px 16px; }
+  .arch-node b { display: block; font-family: var(--font-heading); font-size: 14px; font-weight: 500; color: #fff; }
+  .arch-node span { font-size: 11px; color: var(--color-muted-white); }
+  .arch-node ul { margin-top: 10px; font-family: var(--font-mono); font-size: 10.5px; line-height: 1.9; color: var(--color-code-green); }
+  .arch-link { align-self: center; text-align: center; font-family: var(--font-mono); font-size: 10px; line-height: 1.6; color: var(--color-standard-grey); }
+  .arch-link i { display: block; font-style: normal; font-size: 15px; color: var(--color-accent); }
+
+  /* ---------- Challenges ---------- */
+  .challenges-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 24px; }
+  .challenges-head p { max-width: 330px; font-size: 12px; color: var(--color-muted-dark); }
+  .challenge {
+    background: var(--color-card-bg); border: var(--border-hairline) solid var(--color-card-border); border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+  .challenge + .challenge { margin-top: 14px; }
+  .challenge-head { display: flex; gap: 20px; align-items: flex-start; padding: 22px 24px 20px; }
+  .challenge-num { font-family: var(--font-heading); font-size: 26px; font-weight: 500; line-height: 1; color: var(--color-accent); min-width: 34px; }
+  .challenge-head h3 { font-family: var(--font-heading); font-size: 18px; font-weight: 500; line-height: 1.3; letter-spacing: -0.3px; margin-bottom: 10px; }
+  .challenge-body {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border-top: var(--border-hairline) solid var(--color-separator-light);
+  }
+  .challenge-body > div { padding: 18px 24px 22px; }
+  .challenge-body > div + div { border-left: var(--border-hairline) solid var(--color-separator-light); }
+  .challenge-body h4 { font-size: 10px; letter-spacing: 1.5px; font-weight: 500; text-transform: uppercase; color: var(--color-timid-grey); margin-bottom: 8px; }
+  .challenge-body p { font-size: 12px; line-height: 1.7; color: var(--color-muted-dark); }
+  .challenge-body .result p { color: var(--color-dark); }
+  .challenge-body .result h4 { color: var(--color-accent); }
+
+  .code { background: var(--color-bg-dark); padding: 18px 24px 20px; }
+  .code figcaption { display: flex; justify-content: space-between; gap: 12px; font-family: var(--font-mono); font-size: 10px; color: var(--color-standard-grey); margin-bottom: 10px; }
+  .code pre { margin: 0; overflow-x: auto; font-family: var(--font-mono); font-size: 11.5px; line-height: 1.85; color: var(--color-tag-dark-text); }
+  .code .k { color: var(--color-accent); }
+  .code .s { color: var(--color-code-green); }
+  .code .c { color: var(--color-standard-grey); }
+  .code .ok { color: var(--color-code-green); }
+  .code .dim { color: var(--color-code-green-dim); }
+
+  /* ---------- Outcome ---------- */
+  .learnings { margin-top: 26px; border-top: var(--border-hairline) solid var(--color-separator-dark); }
+  .learnings li { display: flex; gap: 16px; padding: 14px 0; border-bottom: var(--border-hairline) solid var(--color-separator-dark); color: var(--color-muted-white); }
+  .learnings li b { font-family: var(--font-heading); font-weight: 500; color: var(--color-accent); min-width: 22px; }
+  .learnings li strong { font-weight: 500; color: #fff; }
+
+  /* ---------- Next / previous ---------- */
+  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .pager a {
+    display: block; padding: 20px 22px;
+    background: var(--color-card-bg); border: var(--border-hairline) solid var(--color-card-border); border-radius: var(--radius-card);
+    transition: border-color .2s, transform .2s;
+  }
+  .pager a:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+  .pager a.next { text-align: right; }
+  .pager small { display: block; font-size: 10px; letter-spacing: 1.5px; font-weight: 500; text-transform: uppercase; color: var(--color-timid-grey); margin-bottom: 4px; }
+  .pager b { font-family: var(--font-heading); font-size: 18px; font-weight: 500; letter-spacing: -0.3px; }
+  .pager span { display: block; font-size: 12px; color: var(--color-muted-dark); }
+
+  /* ---------- Footer ---------- */
+  .footer { background: var(--color-bg-dark); padding: 32px 0; border-top: var(--border-hairline) solid var(--color-separator-dark); }
+  .footer-top { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+  .footer-bottom { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 16px; border-top: var(--border-hairline) solid var(--color-separator-dark); font-size: 10px; color: rgba(255,255,255,.18); }
+
+  /* ---------- Motion ---------- */
+  @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .fade-in { animation: fade-up .7s ease both; }
+  .js .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease; }
+  .js .reveal.is-in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .fade-in { animation: none; }
+    .js .reveal, .slide { opacity: 1; transform: none; transition: none; }
+    .slide:not(.is-active) { opacity: 0; }
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 767px) {
+    .header .wrap { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .nav { gap: 18px; flex-wrap: wrap; }
+    .hero h1 { font-size: 36px; letter-spacing: -1.5px; }
+    .stage { height: 400px; }
+    .phone--side, .slide-note, .stage-hint { display: none; }
+    .thumbs { grid-template-columns: 1fr 1fr; }
+    .split { grid-template-columns: 1fr; gap: 18px; }
+    .stack-grid { grid-template-columns: 1fr; gap: 26px; }
+    .arch { grid-template-columns: 1fr; }
+    .arch-link i { transform: rotate(90deg); }
+    .challenges-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .challenge-head { padding: 18px 18px 16px; gap: 14px; }
+    .challenge-body { grid-template-columns: 1fr; }
+    .challenge-body > div { padding: 16px 18px; }
+    .challenge-body > div + div { border-left: 0; border-top: var(--border-hairline) solid var(--color-separator-light); }
+    .code { padding: 16px 18px; }
+    .pager { grid-template-columns: 1fr; }
+    .pager a.next { text-align: left; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- HEADER (same as the home page) -->
+<header class="header">
+  <div class="wrap">
+    <a href="#" class="logo">EMILIE MARTIN-DONATI</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#">Work</a>
+      <a href="#">Stack</a>
+      <a href="#">About</a>
+      <a href="#" class="hire">Hire me</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap fade-in">
+      <a href="#" class="back"><span aria-hidden="true">←</span> All projects</a>
+
+      <div class="tags">
+        <span class="tag tag--coral">Case study</span>
+        <span class="tag tag--dark">Mobile app</span>
+        <span class="tag tag--dark">Pet project</span>
+      </div>
+
+      <h1>Moses Supposes<span class="accent">.</span></h1>
+      <p class="lede">A mobile app built end to end with Expo and Supabase — from the data model to the store release, with the business logic fully tested.</p>
+
+      <div class="hero-actions">
+        <a href="#" class="btn btn--primary">View live ↗</a>
+        <a href="#" class="btn btn--ghost">GitHub ↗</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GALLERY: one or several project images, on the light background -->
+  <section class="section section--light">
+    <div class="wrap">
+      <div class="stage" id="stage">
+
+        <div class="slide is-active" data-slide="0">
+          <div class="phone phone--side"><div class="screen">
+            <div class="sk sk--title"></div><div class="sk sk--short"></div>
+            <div class="sk sk--card"></div><div class="sk sk--card"></div><div class="sk sk--card"></div>
+          </div></div>
+          <div class="phone"><div class="screen">
+            <div class="sk sk--title"></div><div class="sk sk--mid"></div>
+            <div class="sk sk--tall sk--accent"></div>
+            <div class="sk"></div><div class="sk sk--mid"></div><div class="sk sk--short"></div>
+            <div class="sk sk--btn"></div>
+          </div></div>
+          <div class="phone phone--side"><div class="screen">
+            <div class="sk sk--title"></div>
+            <div class="sk-bars"><span style="height:45%"></span><span style="height:70%"></span><span style="height:38%"></span><span style="height:92%"></span><span style="height:60%"></span></div>
+            <div class="sk"></div><div class="sk sk--mid"></div>
+          </div></div>
+        </div>
+
+        <div class="slide" data-slide="1">
+          <div class="phone"><div class="screen screen--light">
+            <div class="sk sk--title"></div><div class="sk sk--mid"></div>
+            <div class="sk sk--tall"></div>
+            <div class="sk-row"><div class="sk sk--card"></div><div class="sk sk--card"></div></div>
+            <div class="sk sk--btn"></div>
+          </div></div>
+          <div class="slide-note">
+            <h3>Onboarding in three taps</h3>
+            <p>Use this spot for a short caption explaining what the screen shows and why it was designed this way.</p>
+          </div>
+        </div>
+
+        <div class="slide" data-slide="2">
+          <div class="phone"><div class="screen">
+            <div class="sk sk--title"></div>
+            <div class="sk sk--card"></div><div class="sk sk--card sk--accent"></div><div class="sk sk--card"></div><div class="sk sk--card"></div>
+          </div></div>
+          <div class="phone"><div class="screen">
+            <div class="sk sk--short"></div><div class="sk sk--title"></div>
+            <div class="sk sk--tall"></div>
+            <div class="sk"></div><div class="sk sk--mid"></div>
+            <div class="sk sk--btn"></div>
+          </div></div>
+        </div>
+
+        <div class="slide" data-slide="3">
+          <div class="slide-note">
+            <h3>Progress that stays in sync</h3>
+            <p>Captions are optional. A slide can also be a single full-width screenshot or a short screen recording.</p>
+          </div>
+          <div class="phone"><div class="screen">
+            <div class="sk sk--title"></div><div class="sk sk--short"></div>
+            <div class="sk-bars"><span style="height:30%"></span><span style="height:52%"></span><span style="height:44%"></span><span style="height:78%"></span><span style="height:95%"></span></div>
+            <div class="sk-row"><div class="sk sk--card"></div><div class="sk sk--card"></div></div>
+          </div></div>
+        </div>
+
+        <span class="stage-hint">placeholder — replace with real screenshots</span>
+        <span class="stage-count" id="count">01 / 04</span>
+      </div>
+
+      <div class="thumbs" role="group" aria-label="Project screens">
+        <button class="thumb" type="button" data-target="0" aria-pressed="true"><b>01</b><span>Overview</span></button>
+        <button class="thumb" type="button" data-target="1" aria-pressed="false"><b>02</b><span>Onboarding</span></button>
+        <button class="thumb" type="button" data-target="2" aria-pressed="false"><b>03</b><span>Core flow</span></button>
+        <button class="thumb" type="button" data-target="3" aria-pressed="false"><b>04</b><span>Progress</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 / CONTEXT -->
+  <section class="section section--light">
+    <div class="wrap split reveal">
+      <div>
+        <p class="section-title">01 / Context</p>
+        <h2 class="h2">Why this<br>project exists.</h2>
+      </div>
+      <div>
+        <p class="body">Start with the problem: who the app is for, what was frustrating or missing before, and what the product had to achieve. Two or three sentences are enough — the reader should understand the stakes before the technical part.</p>
+        <p class="body">Then your role: what you owned (here, everything from the database schema to the release pipeline), the constraints you worked with, and what "done" meant for this project.</p>
+        <div class="stats">
+          <div><p class="stat-value">12</p><p class="stat-label">Screens shipped</p></div>
+          <div><p class="stat-value">140+</p><p class="stat-label">Unit tests</p></div>
+          <div><p class="stat-value accent">100%</p><p class="stat-label">Usable offline</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 / STACK & ARCHITECTURE -->
+  <section class="section section--dark">
+    <div class="wrap reveal">
+      <div class="stack-head">
+        <p class="section-title">02 / Stack &amp; architecture</p>
+        <h2 class="h2">What it's built with,<br>and why.</h2>
+      </div>
+
+      <div class="stack-grid">
+        <div class="stack-col">
+          <h3>Mobile</h3>
+          <div class="tags">
+            <span class="tag tag--coral">Expo</span>
+            <span class="tag tag--coral">React Native</span>
+            <span class="tag tag--coral">TypeScript</span>
+          </div>
+          <p>One codebase for iOS and Android, with over-the-air updates for fast fixes.</p>
+        </div>
+        <div class="stack-col">
+          <h3>Back end</h3>
+          <div class="tags">
+            <span class="tag tag--dark">Supabase</span>
+            <span class="tag tag--dark">PostgreSQL</span>
+            <span class="tag tag--dark">Row Level Security</span>
+          </div>
+          <p>Auth, database and access rules in one place, so the security model lives next to the data.</p>
+        </div>
+        <div class="stack-col">
+          <h3>Quality</h3>
+          <div class="tags">
+            <span class="tag tag--dark">Vitest</span>
+            <span class="tag tag--dark">ESLint</span>
+            <span class="tag tag--dark">GitHub Actions</span>
+          </div>
+          <p>Business rules are plain TypeScript, tested without a simulator on every push.</p>
+        </div>
+      </div>
+
+      <div class="arch" aria-label="Architecture overview">
+        <div class="arch-node">
+          <b>Expo app</b><span>UI, navigation, local cache</span>
+          <ul><li>screens/</li><li>domain/ (pure TS)</li><li>sync queue</li></ul>
+        </div>
+        <div class="arch-link"><i aria-hidden="true">→</i>HTTPS<br>+ JWT</div>
+        <div class="arch-node">
+          <b>Supabase API</b><span>Auth and auto-generated REST</span>
+          <ul><li>auth.users</li><li>policies (RLS)</li><li>edge functions</li></ul>
+        </div>
+        <div class="arch-link"><i aria-hidden="true">→</i>SQL</div>
+        <div class="arch-node">
+          <b>PostgreSQL</b><span>Source of truth</span>
+          <ul><li>profiles</li><li>sessions</li><li>progress</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 / TECHNICAL CHALLENGES -->
+  <section class="section section--light">
+    <div class="wrap">
+      <div class="challenges-head reveal">
+        <div>
+          <p class="section-title">03 / Technical challenges</p>
+          <h2 class="h2">The hard parts,<br>and how I solved them.</h2>
+        </div>
+        <p>Each challenge follows the same structure: the problem, what I did about it, and what it changed.</p>
+      </div>
+
+      <!-- Challenge 1 — with a code excerpt -->
+      <article class="challenge reveal">
+        <header class="challenge-head">
+          <span class="challenge-num">01</span>
+          <div>
+            <h3>Keeping the app usable with no network</h3>
+            <div class="tags">
+              <span class="tag tag--purple">Offline-first</span>
+              <span class="tag tag--purple">Sync</span>
+              <span class="tag tag--neutral">Expo</span>
+            </div>
+          </div>
+        </header>
+        <div class="challenge-body">
+          <div>
+            <h4>The problem</h4>
+            <p>The app is mostly used on the go. Every write went straight to the server, so a dropped connection meant a spinner, then lost progress.</p>
+          </div>
+          <div>
+            <h4>What I did</h4>
+            <p>Writes go to a local queue first and the UI updates optimistically. The queue is replayed in order when the connection returns, with per-field timestamps to settle conflicts.</p>
+          </div>
+          <div class="result">
+            <h4>Result</h4>
+            <p>Every screen works offline. Sync is invisible to the user, and no progress has been lost since the queue shipped.</p>
+          </div>
+        </div>
+        <figure class="code">
+          <figcaption><span>domain/sync/queue.ts</span><span>excerpt</span></figcaption>
+<pre><span class="k">export async function</span> flush(queue: Mutation[], api: Api) {
+  <span class="k">for</span> (<span class="k">const</span> m <span class="k">of</span> queue) {
+    <span class="k">const</span> remote = <span class="k">await</span> api.get(m.table, m.id)
+    <span class="c">// last write wins, field by field — never the whole row</span>
+    <span class="k">const</span> merged = mergeByTimestamp(remote, m.patch, m.updatedAt)
+    <span class="k">await</span> api.upsert(m.table, merged)
+    <span class="k">await</span> markSynced(m.id)
+  }
+}</pre>
+        </figure>
+      </article>
+
+      <!-- Challenge 2 — with a SQL excerpt -->
+      <article class="challenge reveal">
+        <header class="challenge-head">
+          <span class="challenge-num">02</span>
+          <div>
+            <h3>Securing data without writing a custom API</h3>
+            <div class="tags">
+              <span class="tag tag--teal">Supabase</span>
+              <span class="tag tag--teal">PostgreSQL</span>
+              <span class="tag tag--teal">RLS</span>
+            </div>
+          </div>
+        </header>
+        <div class="challenge-body">
+          <div>
+            <h4>The problem</h4>
+            <p>The client talks to the database almost directly. One missing rule and any signed-in user could read someone else's rows.</p>
+          </div>
+          <div>
+            <h4>What I did</h4>
+            <p>Row Level Security on every table, denied by default. Each policy is covered by a test that signs in as two different users and checks what each one can see.</p>
+          </div>
+          <div class="result">
+            <h4>Result</h4>
+            <p>Access rules are versioned as migrations, reviewed like code, and verified in CI before each release.</p>
+          </div>
+        </div>
+        <figure class="code">
+          <figcaption><span>supabase/migrations/0007_progress_policies.sql</span><span>excerpt</span></figcaption>
+<pre><span class="k">alter table</span> progress <span class="k">enable row level security</span>;
+
+<span class="k">create policy</span> <span class="s">"owner can read own progress"</span>
+  <span class="k">on</span> progress <span class="k">for select</span>
+  <span class="k">using</span> (auth.uid() = user_id);</pre>
+        </figure>
+      </article>
+
+      <!-- Challenge 3 — with a terminal figure -->
+      <article class="challenge reveal">
+        <header class="challenge-head">
+          <span class="challenge-num">03</span>
+          <div>
+            <h3>Testing business logic without a simulator</h3>
+            <div class="tags">
+              <span class="tag tag--purple">Vitest</span>
+              <span class="tag tag--purple">TypeScript</span>
+              <span class="tag tag--neutral">CI</span>
+            </div>
+          </div>
+        </header>
+        <div class="challenge-body">
+          <div>
+            <h4>The problem</h4>
+            <p>Rules were mixed into React components. Testing one meant booting a device, and regressions slipped through between releases.</p>
+          </div>
+          <div>
+            <h4>What I did</h4>
+            <p>Moved every rule into a pure TypeScript domain layer with no Expo imports. Components only call it; Vitest runs it in Node.</p>
+          </div>
+          <div class="result">
+            <h4>Result</h4>
+            <p>The full suite runs in under four seconds on each push, so refactoring the UI no longer risks the logic.</p>
+          </div>
+        </div>
+        <figure class="code">
+          <figcaption><span>npm run test</span><span>terminal</span></figcaption>
+<pre><span class="ok">✓</span> domain/sync/queue.test.ts <span class="dim">(18 tests) 212ms</span>
+<span class="ok">✓</span> domain/progress/streak.test.ts <span class="dim">(31 tests) 96ms</span>
+<span class="ok">✓</span> domain/session/scoring.test.ts <span class="dim">(44 tests) 140ms</span>
+
+<span class="ok">Test Files  14 passed</span> <span class="dim">(14)</span>
+<span class="ok">     Tests  143 passed</span> <span class="dim">(143)</span>
+<span class="dim">  Duration  3.61s</span></pre>
+        </figure>
+      </article>
+    </div>
+  </section>
+
+  <!-- 04 / OUTCOME -->
+  <section class="section section--dark">
+    <div class="wrap split reveal">
+      <div>
+        <p class="section-title">04 / Outcome</p>
+        <h2 class="h2">What shipped,<br>what I learned.</h2>
+      </div>
+      <div>
+        <p class="body">Close with the result: where the project stands today, what it proved, and the numbers or feedback that back it up. Keep it honest — one concrete figure is worth more than three adjectives.</p>
+        <ul class="learnings">
+          <li><b>01</b><span><strong>Decide the sync model first.</strong> Adding offline support afterwards meant rewriting every write path.</span></li>
+          <li><b>02</b><span><strong>Test access rules like features.</strong> A policy without a test is an assumption.</span></li>
+          <li><b>03</b><span><strong>Keep the domain free of the framework.</strong> It is what made the app cheap to change.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREVIOUS / NEXT -->
+  <section class="section section--light">
+    <div class="wrap pager reveal">
+      <a href="#" class="prev">
+        <small>← Previous project</small>
+        <b>Project name</b>
+        <span>Mobile app · Expo, Supabase</span>
+      </a>
+      <a href="#" class="next">
+        <small>Next project →</small>
+        <b>Project name</b>
+        <span>Web app · Next.js, Tailwind CSS</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <span class="logo">EMILIE MARTIN-DONATI</span>
+      <nav class="nav" aria-label="Footer">
+        <a href="#">GitHub</a>
+        <a href="#">LinkedIn</a>
+        <a href="#" class="accent">Get in touch</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>Built with Next.js &amp; Tailwind CSS.</span>
+      <span>2026 · All rights reserved</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+
+  // Gallery: thumbnails switch the active slide
+  const slides = document.querySelectorAll('.slide');
+  const thumbs = document.querySelectorAll('.thumb');
+  const count = document.getElementById('count');
+  const pad = (n) => String(n).padStart(2, '0');
+
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener('click', () => {
+      const target = Number(thumb.dataset.target);
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === target));
+      thumbs.forEach((t, i) => t.setAttribute('aria-pressed', String(i === target)));
+      count.textContent = pad(target + 1) + ' / ' + pad(slides.length);
+    });
+  });
+
+  // Scroll reveal: fade + slide up, once
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) { entry.target.classList.add('is-in'); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    reveals.forEach((el) => io.observe(el));
+  } else {
+    reveals.forEach((el) => el.classList.add('is-in'));
+  }
+</script>
+</body>
+</html>

@@ -1,22 +1,21 @@
 const SOCIAL_LINKS = [
-  { label: "GitHub", href: "#" },
-  { label: "LinkedIn", href: "#" },
-  { label: "Twitter", href: "#" },
+  { label: "GitHub", href: "https://github.com/EmilieMartinDonati" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/emilie-martin-donati/" }
 ];
 
 export default function Footer() {
   return (
     <footer className="bg-bg-dark">
-      <div className="mx-auto max-w-6xl px-8 py-12">
-        <div className="flex items-center justify-between">
+      <div className="mx-auto max-w-6xl px-6 py-6">
+        <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
           <a
             href="#"
             className="font-heading text-lg font-bold tracking-tight text-accent"
           >
-            YN/
+            EMILIE MARTIN-DONATI
           </a>
 
-          <nav className="flex items-center gap-6">
+          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {SOCIAL_LINKS.map((link) => (
               <a
                 key={link.label}
@@ -27,15 +26,15 @@ export default function Footer() {
               </a>
             ))}
             <a
-              href="mailto:hello@yourname.dev"
-              className="text-body text-accent transition-colors hover:opacity-80"
+              href="mailto:emilie.martindonati@gmail.com"
+              className="text-body break-all text-accent transition-colors hover:opacity-80"
             >
               emilie.martindonati@gmail.com
             </a>
           </nav>
         </div>
 
-        <div className="mt-5 flex items-center justify-between border-t border-separator-dark pt-6">
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-separator-dark pt-5">
           <p className="text-tag text-muted-white">
             Built with Next.js, Tailwind CSS &amp; GSAP
           </p>
